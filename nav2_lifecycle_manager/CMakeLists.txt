@@ -60,10 +60,14 @@ ament_target_dependencies(lifecycle_manager
 
 install(TARGETS
   lifecycle_manager
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
+
+install(TARGETS
   ${library_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
-  RUNTIME DESTINATION lib/${PROJECT_NAME}
+  RUNTIME DESTINATION bin
 )
 
 install(DIRECTORY include/ DESTINATION include/)

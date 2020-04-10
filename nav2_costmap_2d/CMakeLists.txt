@@ -134,10 +134,14 @@ target_link_libraries(nav2_costmap_2d
   nav2_costmap_2d_core
 )
 
-install(TARGETS nav2_costmap_2d_core nav2_costmap_2d layers nav2_costmap_2d_client nav2_costmap_2d_markers
+install(TARGETS nav2_costmap_2d nav2_costmap_2d_markers nav2_costmap_2d_cloud
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
+
+install(TARGETS nav2_costmap_2d_core layers nav2_costmap_2d_client
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
-  RUNTIME DESTINATION lib/${PROJECT_NAME}
+  RUNTIME DESTINATION bin
 )
 
 install(FILES costmap_plugins.xml

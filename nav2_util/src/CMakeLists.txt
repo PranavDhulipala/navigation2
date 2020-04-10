@@ -40,10 +40,14 @@ target_include_directories(dump_params PUBLIC ${Boost_INCLUDE_DIRS})
 target_link_libraries(dump_params ${Boost_PROGRAM_OPTIONS_LIBRARY})
 
 install(TARGETS
-  ${library_name}
   lifecycle_bringup
   dump_params
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
+
+install(TARGETS
+  ${library_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
-  RUNTIME DESTINATION lib/${PROJECT_NAME}
+  RUNTIME DESTINATION bin
 )
