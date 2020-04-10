@@ -75,10 +75,13 @@ target_include_directories(${library_name} SYSTEM PRIVATE
 target_link_libraries(${library_name}
   ${GRAPHICSMAGICKCPP_LIBRARIES})
 
-install(TARGETS ${map_server_executable} ${library_name} ${map_saver_executable}
+install(TARGETS ${map_server_executable} ${map_saver_executable}
+  RUNTIME DESTINATION lib/${PROJECT_NAME})
+
+install(TARGETS ${library_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
-  RUNTIME DESTINATION lib/${PROJECT_NAME})
+  RUNTIME DESTINATION bin)
 
 install(DIRECTORY include/
   DESTINATION include/)

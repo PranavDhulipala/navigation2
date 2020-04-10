@@ -35,6 +35,9 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#ifdef _WIN32
+#include <string.h>
+#endif
 
 #include "Magick++.h"
 #include "tf2/LinearMath/Quaternion.h"
@@ -43,6 +46,37 @@
 #include "lifecycle_msgs/msg/state.hpp"
 
 using namespace std::chrono_literals;
+
+#ifdef _WIN32
+static
+char * dirname(char *path)
+{
+  static const char dot[] = ".";
+  char *last_slash;
+
+  /* Find last '/'.  */
+  last_slash = path != NULL ? strrchr (path, '/') : NULL;
+
+  if (last_slash == path)
+    /* The last slash is the first character in the string.  We have to
+       return "/".  */
+    ++last_slash;
+  else if (last_slash != NULL && last_slash[1] == '\0')
+    /* The '/' is the last character, we have to look further.  */
+    last_slash = (char *) memchr (path, last_slash - path, '/');
+
+  if (last_slash != NULL)
+    /* Terminate the path.  */
+    last_slash[0] = '\0';
+  else
+    /* This assignment is ill-designed but the XPG specs require to
+       return a string containing "." in any case no directory part is
+       found and so a static and constant string is required.  */
+    path = (char *) dot;
+
+  return path;
+}
+#endif
 
 namespace nav2_map_server
 {
@@ -86,8 +120,7 @@ OccGridLoader::LoadParameters OccGridLoader::load_map_yaml(const std::string & y
     // dirname takes a mutable char *, so we copy into a vector
     std::vector<char> fname_copy(yaml_filename.begin(), yaml_filename.end());
     fname_copy.push_back('\0');
-    // TODO:
-    //image_file_name = std::string(dirname(fname_copy.data())) + '/' + image_file_name;
+    image_file_name = std::string(dirname(fname_copy.data())) + '/' + image_file_name;
   }
   loadParameters.image_file_name = image_file_name;
 
