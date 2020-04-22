@@ -37,6 +37,7 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "dwb_msgs/msg/trajectory2_d.hpp"
+#include "dwb_core/visibility_control.h"
 
 namespace dwb_core
 {
@@ -50,6 +51,7 @@ namespace dwb_core
  * Linearly searches through the poses. Once the poses time_offset is greater than the desired time_offset,
  * the search ends, since the poses have increasing time_offsets.
  */
+DWB_CORE_PUBLIC
 const geometry_msgs::msg::Pose2D & getClosestPose(
   const dwb_msgs::msg::Trajectory2D & trajectory,
   const double time_offset);
@@ -61,6 +63,7 @@ const geometry_msgs::msg::Pose2D & getClosestPose(
  * @return New Pose2D with interpolated values
  * @note If the given time offset is outside the bounds of the trajectory, the return pose will be either the first or last pose.
  */
+DWB_CORE_PUBLIC
 geometry_msgs::msg::Pose2D projectPose(
   const dwb_msgs::msg::Trajectory2D & trajectory,
   const double time_offset);
