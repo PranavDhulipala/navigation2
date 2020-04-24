@@ -38,6 +38,7 @@ add_library(${library_name} SHARED
   src/map_mode.cpp)
 
 target_compile_definitions(${library_name} PRIVATE "NAV2_MAP_SERVER_BUILDING_DLL")
+target_compile_definitions(${library_name} PRIVATE "YAML_CPP_DLL")
 
 set(map_server_dependencies
   rclcpp
