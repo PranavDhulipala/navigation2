@@ -30,6 +30,7 @@
 #include "smac_planner/constants.hpp"
 #include "smac_planner/types.hpp"
 #include "smac_planner/collision_checker.hpp"
+#include "smac_planner/visibility_control.hpp"
 
 namespace smac_planner
 {
@@ -405,8 +406,8 @@ public:
 
   NodeSE2 * parent;
   Coordinates pose;
-  static double neutral_cost;
-  static MotionTable motion_table;
+  SMAC_PLANNER_PUBLIC static double neutral_cost;
+  SMAC_PLANNER_PUBLIC static MotionTable motion_table;
 
 private:
   float _cell_cost;

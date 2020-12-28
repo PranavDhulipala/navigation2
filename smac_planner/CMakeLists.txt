@@ -25,13 +25,17 @@ find_package(Eigen3 REQUIRED)
 find_package(ompl REQUIRED)
 find_package(OpenMP REQUIRED)
 
+nav2_package()
+
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 
-add_compile_options(-O3 -Wextra -Wdeprecated -fPIC)
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-O3 -Wextra -Wdeprecated -fPIC)
+endif()
 
 include_directories(
   include
@@ -95,7 +99,9 @@ ament_target_dependencies(${library_name}_2d
 )
 
 target_compile_definitions(${library_name} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
+target_compile_definitions(${library_name} PRIVATE "SMAC_PLANNER_BUILDING_DLL")
 target_compile_definitions(${library_name}_2d PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
+target_compile_definitions(${library_name}_2d PRIVATE "SMAC_PLANNER_BUILDING_DLL")
 
 pluginlib_export_plugin_description_file(nav2_core smac_plugin.xml)
 pluginlib_export_plugin_description_file(nav2_core smac_plugin_2d.xml)
