@@ -31,6 +31,7 @@
 #include "nav2_smac_planner/types.hpp"
 #include "nav2_smac_planner/collision_checker.hpp"
 #include "nav2_smac_planner/costmap_downsampler.hpp"
+#include "smac_planner/visibility_control.hpp"
 
 namespace nav2_smac_planner
 {
@@ -442,17 +443,17 @@ public:
   Coordinates pose;
 
   // Constants required across all nodes but don't want to allocate more than once
-  static double travel_distance_cost;
-  static HybridMotionTable motion_table;
+  SMAC_PLANNER_PUBLIC static double travel_distance_cost;
+  SMAC_PLANNER_PUBLIC static HybridMotionTable motion_table;
   // Wavefront lookup and queue for continuing to expand as needed
-  static LookupTable obstacle_heuristic_lookup_table;
-  static ObstacleHeuristicQueue obstacle_heuristic_queue;
+  SMAC_PLANNER_PUBLIC static LookupTable obstacle_heuristic_lookup_table;
+  SMAC_PLANNER_PUBLIC static ObstacleHeuristicQueue obstacle_heuristic_queue;
 
-  static nav2_costmap_2d::Costmap2D * sampled_costmap;
-  static CostmapDownsampler downsampler;
+  SMAC_PLANNER_PUBLIC static nav2_costmap_2d::Costmap2D * sampled_costmap;
+  SMAC_PLANNER_PUBLIC static CostmapDownsampler downsampler;
   // Dubin / Reeds-Shepp lookup and size for dereferencing
-  static LookupTable dist_heuristic_lookup_table;
-  static float size_lookup;
+  SMAC_PLANNER_PUBLIC static LookupTable dist_heuristic_lookup_table;
+  SMAC_PLANNER_PUBLIC static float size_lookup;
 
 private:
   float _cell_cost;

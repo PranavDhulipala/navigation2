@@ -28,6 +28,7 @@
 #include "nav2_smac_planner/constants.hpp"
 #include "nav2_smac_planner/collision_checker.hpp"
 #include "nav2_smac_planner/node_hybrid.hpp"
+#include "smac_planner/visibility_control.hpp"
 
 namespace nav2_smac_planner
 {
@@ -268,8 +269,8 @@ public:
   bool backtracePath(CoordinateVector & path);
 
   Node2D * parent;
-  static float cost_travel_multiplier;
-  static std::vector<int> _neighbors_grid_offsets;
+  SMAC_PLANNER_PUBLIC static float cost_travel_multiplier;
+  SMAC_PLANNER_PUBLIC static std::vector<int> _neighbors_grid_offsets;
 
 private:
   float _cell_cost;

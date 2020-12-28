@@ -118,7 +118,7 @@ public:
 
     ceres::GradientProblemSolver::Summary summary;
     ceres::GradientProblem problem(new UnconstrainedSmootherCostFunction(&path, costmap, params));
-    ceres::Solve(_options, problem, parameters, &summary);
+    ceres::Solve(_options, problem, parameters.data(), &summary);
 
     if (_debug) {
       std::cout << summary.FullReport() << '\n';
