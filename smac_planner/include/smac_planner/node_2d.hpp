@@ -26,6 +26,7 @@
 
 #include "smac_planner/constants.hpp"
 #include "smac_planner/collision_checker.hpp"
+#include "smac_planner/visibility_control.hpp"
 
 namespace smac_planner
 {
@@ -232,8 +233,8 @@ public:
     NodeVector & neighbors);
 
   Node2D * parent;
-  static double neutral_cost;
-  static std::vector<int> _neighbors_grid_offsets;
+  SMAC_PLANNER_PUBLIC static double neutral_cost;
+  SMAC_PLANNER_PUBLIC static std::vector<int> _neighbors_grid_offsets;
 
 private:
   float _cell_cost;

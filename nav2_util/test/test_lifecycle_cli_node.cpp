@@ -17,11 +17,15 @@
 
 #include <cstdlib>
 #include <memory>
+#include <thread>
+#include <chrono>
 #include "gtest/gtest.h"
 #include "nav2_util/lifecycle_node.hpp"
 #include "nav2_util/lifecycle_utils.hpp"
 #include "nav2_util/node_thread.hpp"
 #include "rclcpp/rclcpp.hpp"
+
+using namespace std::chrono_literals;
 
 class DummyNode : public nav2_util::LifecycleNode
 {
@@ -80,7 +84,7 @@ TEST(LifeycleCLI, fails_no_node_name)
   Handle handle;
   auto rc = system("ros2 run nav2_util lifecycle_bringup");
   (void)rc;
-  sleep(1);
+  std::this_thread::sleep_for(1s);
   // check node didn't mode
   EXPECT_EQ(handle.node->activated, false);
   SUCCEED();
@@ -90,7 +94,7 @@ TEST(LifeycleCLI, succeeds_node_name)
 {
   Handle handle;
   auto rc = system("ros2 run nav2_util lifecycle_bringup nav2_test_cli");
-  sleep(3);
+  std::this_thread::sleep_for(3s);
   // check node moved
   (void)rc;
   EXPECT_EQ(handle.node->activated, true);
