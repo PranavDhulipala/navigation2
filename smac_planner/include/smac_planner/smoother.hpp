@@ -105,15 +105,20 @@ public:
   {
     _options.max_solver_time_in_seconds = params.max_time;
 
-    std::vector<double> parameters(path.size() * 2);  // NOLINT
-    for (auto i = 0; i != path.size(); i++) {
+#ifdef _MSC_VER
+    std::vector<double> parameters_vec(path.size() * 2);
+    double * parameters = parameters_vec.data();
+#else
+    double parameters[path.size() * 2];  // NOLINT
+#endif
+    for (unsigned int i = 0; i != path.size(); i++) {
       parameters[2 * i] = path[i][0];
       parameters[2 * i + 1] = path[i][1];
     }
 
     ceres::GradientProblemSolver::Summary summary;
     ceres::GradientProblem problem(new UnconstrainedSmootherCostFunction(&path, costmap, params));
-    ceres::Solve(_options, problem, parameters.data(), &summary);
+    ceres::Solve(_options, problem, parameters, &summary);
 
     if (_debug) {
       std::cout << summary.FullReport() << '\n';
@@ -123,7 +128,7 @@ public:
       return false;
     }
 
-    for (auto i = 0; i != path.size(); i++) {
+    for (unsigned int i = 0; i != path.size(); i++) {
       path[i][0] = parameters[2 * i];
       path[i][1] = parameters[2 * i + 1];
     }

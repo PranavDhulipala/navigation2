@@ -25,7 +25,9 @@
 #include "nav2_util/node_thread.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-using namespace std::chrono_literals;
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 class DummyNode : public nav2_util::LifecycleNode
 {
@@ -84,7 +86,11 @@ TEST(LifeycleCLI, fails_no_node_name)
   Handle handle;
   auto rc = system("ros2 run nav2_util lifecycle_bringup");
   (void)rc;
-  std::this_thread::sleep_for(1s);
+#ifdef _WIN32
+  Sleep(1000);
+#else
+  sleep(1);
+#endif
   // check node didn't mode
   EXPECT_EQ(handle.node->activated, false);
   SUCCEED();
@@ -94,7 +100,11 @@ TEST(LifeycleCLI, succeeds_node_name)
 {
   Handle handle;
   auto rc = system("ros2 run nav2_util lifecycle_bringup nav2_test_cli");
-  std::this_thread::sleep_for(3s);
+#ifdef _WIN32
+  Sleep(3000);
+#else
+  sleep(3);
+#endif
   // check node moved
   (void)rc;
   EXPECT_EQ(handle.node->activated, true);
