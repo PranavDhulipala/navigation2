@@ -78,7 +78,7 @@ TEST_F(Test, testingCurvatureResidual)
   EXPECT_EQ(fn.getCurvatureResidual(0.0, pt, pt_other, pt_other), 0.0);
 
   nav2_constrained_smoother::SmootherParams params_no_min_turning_radius;
-  params_no_min_turning_radius.max_curvature = 1.0f / 0.0;
+  params_no_min_turning_radius.max_curvature = 1.0;
   TestableSmootherCostFunction fn_no_min_turning_radius(
     Eigen::Vector2d(1.0, 0.0), 1.0, false,
     &costmap, std::shared_ptr<ceres::BiCubicInterpolator<ceres::Grid2D<uint8_t>>>(),
