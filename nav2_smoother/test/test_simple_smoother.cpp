@@ -122,7 +122,7 @@ TEST(SmootherTest, test_simple_smoother)
   rclcpp::Duration max_time = rclcpp::Duration::from_seconds(1);  // 1 second
   EXPECT_FALSE(smoother->smooth(straight_irregular_path, no_time));
   EXPECT_TRUE(smoother->smooth(straight_irregular_path, max_time));
-  for (uint i = 0; i != straight_irregular_path.poses.size() - 1; i++) {
+  for (unsigned int i = 0; i != straight_irregular_path.poses.size() - 1; i++) {
     // Check distances are more evenly spaced out now
     EXPECT_LT(
       fabs(
@@ -158,7 +158,7 @@ TEST(SmootherTest, test_simple_smoother)
   straight_regular_path.poses[10].pose.position.y = 1.0;
 
   EXPECT_TRUE(smoother->smooth(straight_regular_path, max_time));
-  for (uint i = 0; i != straight_regular_path.poses.size() - 1; i++) {
+  for (unsigned int i = 0; i != straight_regular_path.poses.size() - 1; i++) {
     // Check distances are still very evenly spaced
     EXPECT_NEAR(
       fabs(
