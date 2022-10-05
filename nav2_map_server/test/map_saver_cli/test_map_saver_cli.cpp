@@ -13,13 +13,14 @@
 // limitations under the License.
 
 #include <gtest/gtest.h>
-#include <experimental/filesystem>
+#include <filesystem>
 #include <string>
 #include <memory>
 #include <utility>
 
 #include "rclcpp/rclcpp.hpp"
 #include "nav_msgs/msg/occupancy_grid.hpp"
+
 
 TEST(MapSaverCLI, CLITest)
 {
@@ -61,7 +62,7 @@ TEST(MapSaverCLI, CLITest)
   // succeed on real map
   RCLCPP_INFO(node->get_logger(), "Calling saver...");
 
-  EXPECT_FALSE(std::experimental::filesystem::exists(file_path + ".yaml"));
+  EXPECT_FALSE(std::filesystem::exists(file_path + ".yaml"));
 
   std::string command =
     std::string(
@@ -73,20 +74,20 @@ TEST(MapSaverCLI, CLITest)
 
   RCLCPP_INFO(node->get_logger(), "Checking on file...");
 
-  EXPECT_TRUE(std::experimental::filesystem::exists(file_path + ".pgm"));
-  EXPECT_EQ(std::experimental::filesystem::file_size(file_path + ".pgm"), 20ul);
+  EXPECT_TRUE(std::filesystem::exists(file_path + ".pgm"));
+  EXPECT_EQ(std::filesystem::file_size(file_path + ".pgm"), 20ul);
 
-  if (std::experimental::filesystem::exists(file_path + ".yaml")) {
-    std::experimental::filesystem::remove(file_path + ".yaml");
+  if (std::filesystem::exists(file_path + ".yaml")) {
+    std::filesystem::remove(file_path + ".yaml");
   }
-  if (std::experimental::filesystem::exists(file_path + ".pgm")) {
-    std::experimental::filesystem::remove(file_path + ".pgm");
+  if (std::filesystem::exists(file_path + ".pgm")) {
+    std::filesystem::remove(file_path + ".pgm");
   }
 
   // fail on bogus map
   RCLCPP_INFO(node->get_logger(), "Calling saver...");
 
-  EXPECT_FALSE(std::experimental::filesystem::exists(file_path + ".yaml"));
+  EXPECT_FALSE(std::filesystem::exists(file_path + ".yaml"));
 
   command =
     std::string(
@@ -100,7 +101,7 @@ TEST(MapSaverCLI, CLITest)
 
   RCLCPP_INFO(node->get_logger(), "Checking on file...");
 
-  EXPECT_FALSE(std::experimental::filesystem::exists(file_path + ".yaml"));
+  EXPECT_FALSE(std::filesystem::exists(file_path + ".yaml"));
 
   RCLCPP_INFO(node->get_logger(), "Testing help...");
   command =
