@@ -50,6 +50,11 @@ if(HAVE_DRAND48)
   target_compile_definitions(${library_name} PRIVATE "HAVE_DRAND48")
 endif()
 
+if (WIN32)
+  add_definitions(-D_USE_MATH_DEFINES)
+  add_definitions(-DNOMINMAX)
+endif()
+
 set(dependencies
   rclcpp
   rclcpp_lifecycle
