@@ -25,7 +25,11 @@ find_package(pluginlib REQUIRED)
 
 nav2_package()
 
-link_libraries(stdc++fs)
+if(WIN32)
+  add_definitions(-D_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING)
+else()
+  link_libraries(stdc++fs)
+endif()
 
 include_directories(
   include
