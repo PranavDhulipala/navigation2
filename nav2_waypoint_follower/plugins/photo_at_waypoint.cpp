@@ -61,14 +61,22 @@ void PhotoAtWaypoint::initialize(
   // get inputted save directory and make sure it exists, if not log and create  it
   save_dir_ = save_dir_as_string;
   try {
+#if defined (_WIN32)
     if (!std::filesystem::exists(save_dir_)) {
+#else
+    if (!std::experimental::filesystem::exists(save_dir_)) {
+#endif
       RCLCPP_WARN(
         logger_,
         "Provided save directory for photo at waypoint plugin does not exist,"
         "provided directory is: %s, the directory will be created automatically.",
         save_dir_.c_str()
       );
+#if defined (_WIN32)
       if (!std::filesystem::create_directory(save_dir_)) {
+#else
+      if (!std::experimental::filesystem::create_directory(save_dir_)) {
+#endif
         RCLCPP_ERROR(
           logger_,
           "Failed to create directory!: %s required by photo at waypoint plugin, "
@@ -110,7 +118,11 @@ bool PhotoAtWaypoint::processAtWaypoint(
   }
   try {
     // construct the full path to image filename
+#if defined (_WIN32)
     std::filesystem::path file_name = std::to_string(
+#else
+    std::experimental::filesystem::path file_name = std::to_string(
+#endif
       curr_waypoint_index) + "_" +
       std::to_string(curr_pose.header.stamp.sec) + "." + image_format_;
     std::filesystem::path full_path_image_path = save_dir_ / file_name;
@@ -119,7 +131,11 @@ bool PhotoAtWaypoint::processAtWaypoint(
     std::lock_guard<std::mutex> guard(global_mutex_);
     cv::Mat curr_frame_mat;
     deepCopyMsg2Mat(curr_frame_msg_, curr_frame_mat);
+#if defined (_WIN32)
     cv::imwrite((full_path_image_path).string(), curr_frame_mat);
+#else
+    cv::imwrite(full_path_image_path.c_str(), curr_frame_mat);
+#endif
     RCLCPP_INFO(
       logger_,
       "Photo has been taken sucessfully at waypoint %i", curr_waypoint_index);

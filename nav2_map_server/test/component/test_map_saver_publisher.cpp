@@ -12,9 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <filesystem>
 #include <string>
 #include <memory>
+#if defined(_WIN32)
+#include <filesystem>  // NOLINT
+#else
+#include <experimental/filesystem>  // NOLINT
+#endif
 
 #include "rclcpp/rclcpp.hpp"
 #include "nav2_map_server/map_io.hpp"
@@ -23,7 +27,11 @@
 #define TEST_DIR TEST_DIRECTORY
 
 using namespace nav2_map_server;  // NOLINT
+#if defined(_WIN32)
 using std::filesystem::path;
+#else
+using std::experimental::filesystem::path;
+#endif
 
 class TestPublisher : public rclcpp::Node
 {
@@ -31,7 +39,11 @@ public:
   TestPublisher()
   : Node("map_publisher")
   {
+#if defined(_WIN32)
     std::string pub_map_file = (path(TEST_DIR) / path(g_valid_yaml_file)).string();
+#else
+    std::string pub_map_file = path(TEST_DIR) / path(g_valid_yaml_file);
+#endif    
     nav_msgs::msg::OccupancyGrid msg;
     LOAD_MAP_STATUS status = loadMapFromYaml(pub_map_file, msg);
     if (status != LOAD_MAP_SUCCESS) {

@@ -9,6 +9,11 @@ ament_target_dependencies(test_map_server_node rclcpp nav_msgs)
 target_link_libraries(test_map_server_node
   ${library_name}
 )
+if (NOT WIN32)
+target_link_libraries(test_map_server_node
+  stdc++fs
+)
+endif()
 
 ament_add_test(test_map_server_node
   GENERATE_RESULT_FOR_RETURN_CODE_ZERO
@@ -30,6 +35,11 @@ ament_target_dependencies(test_map_saver_node rclcpp nav_msgs)
 target_link_libraries(test_map_saver_node
   ${library_name}
 )
+if (NOT WIN32)
+target_link_libraries(test_map_saver_node
+  stdc++fs
+)
+endif()
 
 add_executable(test_map_saver_publisher
   test_map_saver_publisher.cpp
@@ -39,6 +49,11 @@ add_executable(test_map_saver_publisher
 target_link_libraries(test_map_saver_publisher
   ${map_io_library_name}
 )
+if (NOT WIN32)
+target_link_libraries(test_map_saver_publisher
+  stdc++fs
+)
+endif()
 
 ament_add_test(test_map_saver_node
   GENERATE_RESULT_FOR_RETURN_CODE_ZERO

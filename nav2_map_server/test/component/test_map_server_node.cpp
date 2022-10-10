@@ -16,7 +16,11 @@
 
 #include <string>
 #include <memory>
+#if defined(_WIN32)
 #include <filesystem>  // NOLINT
+#else
+#include <experimental/filesystem>  // NOLINT
+#endif
 
 #include <rclcpp/rclcpp.hpp>
 
@@ -29,7 +33,11 @@ using namespace rclcpp;  // NOLINT
 
 #define TEST_DIR TEST_DIRECTORY
 
+#if defined(_WIN32)
 using std::filesystem::path;
+#else
+using std::experimental::filesystem::path;
+#endif
 
 using lifecycle_msgs::msg::Transition;
 
@@ -133,7 +141,11 @@ TEST_F(MapServerTestFixture, LoadMap)
   RCLCPP_INFO(node_->get_logger(), "Waiting for load_map service");
   ASSERT_TRUE(client->wait_for_service());
 
+#if defined(_WIN32)
   req->map_url = (path(TEST_DIR) / path(g_valid_yaml_file)).string();
+#else
+   req->map_url = path(TEST_DIR) / path(g_valid_yaml_file);
+#endif
   auto resp = send_request<nav2_msgs::srv::LoadMap>(node_, client, req);
 
   ASSERT_EQ(resp->result, nav2_msgs::srv::LoadMap::Response::RESULT_SUCCESS);
@@ -187,7 +199,12 @@ TEST_F(MapServerTestFixture, LoadMapInvalidImage)
   RCLCPP_INFO(node_->get_logger(), "Waiting for load_map service");
   ASSERT_TRUE(client->wait_for_service());
 
+#if defined(_WIN32)
   req->map_url = (path(TEST_DIR) / "invalid_image.yaml").string();
+#else
+  req->map_url = path(TEST_DIR) / "invalid_image.yaml";
+#endif
+
   RCLCPP_INFO(node_->get_logger(), "Sending load_map request with invalid image file name");
   auto resp = send_request<nav2_msgs::srv::LoadMap>(node_, client, req);
 
@@ -229,7 +246,11 @@ TEST_F(MapServerTestFixture, NoInitialMap)
   lifecycle_client_->change_state(Transition::TRANSITION_ACTIVATE, 3s);
   RCLCPP_INFO(node_->get_logger(), "active again");
 
+#if defined(_WIN32)
   load_map_req->map_url = (path(TEST_DIR) / path(g_valid_yaml_file)).string();
+#else
+load_map_req->map_url = path(TEST_DIR) / path(g_valid_yaml_file);
+#endif
   auto load_res = send_request<nav2_msgs::srv::LoadMap>(node_, load_map_cl, load_map_req);
 
   ASSERT_EQ(load_res->result, nav2_msgs::srv::LoadMap::Response::RESULT_SUCCESS);

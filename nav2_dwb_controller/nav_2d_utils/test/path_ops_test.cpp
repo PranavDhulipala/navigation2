@@ -63,11 +63,11 @@ TEST(path_ops_test, AdjustResolutionSimple)
 
   nav_2d_msgs::msg::Path2D out = adjustPlanResolution(in, RESOLUTION);
   float length = 100;
-  unsigned long number_of_points = ceil(length / (2 * RESOLUTION));
+  uint64_t number_of_points = ceil(length / (2 * RESOLUTION));
   EXPECT_EQ(out.poses.size(), number_of_points);
   float max_length = length / (number_of_points - 1);
 
-  for (unsigned int i = 1; i < out.poses.size(); i++) {
+  for (size_t i = 1; i < out.poses.size(); i++) {
     pose1 = out.poses[i - 1];
     pose2 = out.poses[i];
 

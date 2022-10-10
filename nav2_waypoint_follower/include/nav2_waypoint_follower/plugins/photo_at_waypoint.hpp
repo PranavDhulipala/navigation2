@@ -22,18 +22,27 @@
 #define _LIBCPP_NO_EXPERIMENTAL_DEPRECATION_WARNING_FILESYSTEM
 
 
-#include <filesystem>
 #include <mutex>
 #include <string>
 #include <exception>
+#if defined(_WIN32)
+#include <filesystem>
+#else
+#include <experimental/filesystem>
+#endif
 
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_components/register_node_macro.hpp"
 
 #include "sensor_msgs/msg/image.hpp"
 #include "nav2_core/waypoint_task_executor.hpp"
+#if defined(_WIN32)
 #include "opencv2/core.hpp"
 #include "opencv2/opencv.hpp"
+#else
+#include "opencv4/opencv2/core.hpp"
+#include "opencv4/opencv2/opencv.hpp"
+#endif
 #include "cv_bridge/cv_bridge.h"
 #include "image_transport/image_transport.hpp"
 
@@ -97,7 +106,11 @@ protected:
   // to ensure safety when accessing global var curr_frame_
   std::mutex global_mutex_;
   // the taken photos will be saved under this directory
+#if defined(_WIN32)
   std::filesystem::path save_dir_;
+#else
+  std::experimental::filesystem::path save_dir_;
+#endif
   // .png ? .jpg ? or some other well known format
   std::string image_format_;
   // the topic to subscribe in order capture a frame

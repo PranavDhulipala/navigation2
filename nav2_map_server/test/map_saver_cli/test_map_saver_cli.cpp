@@ -13,10 +13,14 @@
 // limitations under the License.
 
 #include <gtest/gtest.h>
-#include <filesystem>
 #include <string>
 #include <memory>
 #include <utility>
+#if defined(_WIN32)
+#include <filesystem>  // NOLINT
+#else
+#include <experimental/filesystem>  // NOLINT
+#endif
 
 #include "rclcpp/rclcpp.hpp"
 #include "nav_msgs/msg/occupancy_grid.hpp"
@@ -62,8 +66,11 @@ TEST(MapSaverCLI, CLITest)
   // succeed on real map
   RCLCPP_INFO(node->get_logger(), "Calling saver...");
 
+#if defined(_WIN32)
   EXPECT_FALSE(std::filesystem::exists(file_path + ".yaml"));
-
+#else
+  EXPECT_FALSE(std::experimental::filesystem::exists(file_path + ".yaml"));
+#endif
   std::string command =
     std::string(
     "ros2 run nav2_map_server map_saver_cli -f ") + file_path;
@@ -74,21 +81,41 @@ TEST(MapSaverCLI, CLITest)
 
   RCLCPP_INFO(node->get_logger(), "Checking on file...");
 
+#if defined(_WIN32)
   EXPECT_TRUE(std::filesystem::exists(file_path + ".pgm"));
   EXPECT_EQ(std::filesystem::file_size(file_path + ".pgm"), 20ul);
+#else  
+  EXPECT_TRUE(std::experimental::filesystem::exists(file_path + ".pgm"));
+  EXPECT_EQ(std::experimental::filesystem::file_size(file_path + ".pgm"), 20ul);
+#endif
 
+#if defined(_WIN32)
   if (std::filesystem::exists(file_path + ".yaml")) {
     std::filesystem::remove(file_path + ".yaml");
   }
+#else
+  if (std::experimental::filesystem::exists(file_path + ".yaml")) {
+  std::experimental::filesystem::remove(file_path + ".yaml");
+  }
+#endif
+
+#if defined(_WIN32)
   if (std::filesystem::exists(file_path + ".pgm")) {
     std::filesystem::remove(file_path + ".pgm");
   }
-
+#else
+  if (std::experimental::filesystem::exists(file_path + ".pgm")) {
+  std::experimental::filesystem::remove(file_path + ".pgm");
+  }
+#endif
   // fail on bogus map
   RCLCPP_INFO(node->get_logger(), "Calling saver...");
 
+#if defined(_WIN32)
   EXPECT_FALSE(std::filesystem::exists(file_path + ".yaml"));
-
+#else
+  EXPECT_FALSE(std::experimental::filesystem::exists(file_path + ".yaml"));
+#endif
   command =
     std::string(
     "ros2 run nav2_map_server map_saver_cli "
@@ -101,8 +128,11 @@ TEST(MapSaverCLI, CLITest)
 
   RCLCPP_INFO(node->get_logger(), "Checking on file...");
 
+#if defined(_WIN32)
   EXPECT_FALSE(std::filesystem::exists(file_path + ".yaml"));
-
+#else
+  EXPECT_FALSE(std::experimental::filesystem::exists(file_path + ".yaml"));
+#endif
   RCLCPP_INFO(node->get_logger(), "Testing help...");
   command =
     std::string(
