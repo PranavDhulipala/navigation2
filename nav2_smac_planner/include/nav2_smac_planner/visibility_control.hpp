@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License. Reserved.
 
-#ifndef SMAC_PLANNER__VISIBILITY_CONTROL_H_
-#define SMAC_PLANNER__VISIBILITY_CONTROL_H_
+#ifndef NAV2_SMAC_PLANNER__VISIBILITY_CONTROL_H_
+#define NAV2_SMAC_PLANNER__VISIBILITY_CONTROL_H_
 
 #ifdef __cplusplus
 extern "C"
@@ -25,34 +25,34 @@ extern "C"
 
 #if defined _WIN32 || defined __CYGWIN__
   #ifdef __GNUC__
-    #define SMAC_PLANNER_EXPORT __attribute__ ((dllexport))
-    #define SMAC_PLANNER_IMPORT __attribute__ ((dllimport))
+    #define NAV2_SMAC_PLANNER_EXPORT __attribute__ ((dllexport))
+    #define NAV2_SMAC_PLANNER_IMPORT __attribute__ ((dllimport))
   #else
-    #define SMAC_PLANNER_EXPORT __declspec(dllexport)
-    #define SMAC_PLANNER_IMPORT __declspec(dllimport)
+    #define NAV2_SMAC_PLANNER_EXPORT __declspec(dllexport)
+    #define NAV2_SMAC_PLANNER_IMPORT __declspec(dllimport)
   #endif
-  #ifdef SMAC_PLANNER_BUILDING_DLL
-    #define SMAC_PLANNER_PUBLIC SMAC_PLANNER_EXPORT
+  #ifdef NAV2_SMAC_PLANNER_BUILDING_DLL
+    #define NAV2_SMAC_PLANNER_PUBLIC NAV2_SMAC_PLANNER_EXPORT
   #else
-    #define SMAC_PLANNER_PUBLIC SMAC_PLANNER_IMPORT
+    #define NAV2_SMAC_PLANNER_PUBLIC NAV2_SMAC_PLANNER_IMPORT
   #endif
-  #define SMAC_PLANNER_PUBLIC_TYPE SMAC_PLANNER_PUBLIC
-  #define SMAC_PLANNER_LOCAL
+  #define NAV2_SMAC_PLANNER_PUBLIC_TYPE NAV2_SMAC_PLANNER_PUBLIC
+  #define NAV2_SMAC_PLANNER_LOCAL
 #else
-  #define SMAC_PLANNER_EXPORT __attribute__ ((visibility("default")))
-  #define SMAC_PLANNER_IMPORT
+  #define NAV2_SMAC_PLANNER_EXPORT __attribute__ ((visibility("default")))
+  #define NAV2_SMAC_PLANNER_IMPORT
   #if __GNUC__ >= 4
-    #define SMAC_PLANNER_PUBLIC __attribute__ ((visibility("default")))
-    #define SMAC_PLANNER_LOCAL  __attribute__ ((visibility("hidden")))
+    #define NAV2_SMAC_PLANNER_PUBLIC __attribute__ ((visibility("default")))
+    #define NAV2_SMAC_PLANNER_LOCAL  __attribute__ ((visibility("hidden")))
   #else
-    #define SMAC_PLANNER_PUBLIC
-    #define SMAC_PLANNER_LOCAL
+    #define NAV2_SMAC_PLANNER_PUBLIC
+    #define NAV2_SMAC_PLANNER_LOCAL
   #endif
-  #define SMAC_PLANNER_PUBLIC_TYPE
+  #define NAV2_SMAC_PLANNER_PUBLIC_TYPE
 #endif
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif  // SMAC_PLANNER__VISIBILITY_CONTROL_H_
+#endif  // NAV2_SMAC_PLANNER__VISIBILITY_CONTROL_H_

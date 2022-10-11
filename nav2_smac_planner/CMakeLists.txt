@@ -22,8 +22,9 @@ find_package(pluginlib REQUIRED)
 find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(angles REQUIRED)
-find_package(ompl REQUIRED)
+find_package(ompl CONFIG REQUIRED)
 find_package(OpenMP REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 nav2_package()
 
@@ -74,6 +75,7 @@ set(dependencies
   pluginlib
   angles
   eigen3_cmake_module
+  nlohmann_json
 )
 
 # Hybrid plugin
@@ -92,6 +94,10 @@ add_library(${library_name} SHARED
 
 target_link_libraries(${library_name} ${OMPL_LIBRARIES} ${OpenMP_LIBRARIES}  OpenMP::OpenMP_CXX)
 target_include_directories(${library_name} PUBLIC ${Eigen3_INCLUDE_DIRS})
+if(WIN32)
+  target_compile_definitions(${library_name}
+    PRIVATE "NAV2_SMAC_PLANNER_BUILDING_DLL")
+endif()
 
 ament_target_dependencies(${library_name}
   ${dependencies}
@@ -113,7 +119,10 @@ add_library(${library_name}_2d SHARED
 
 target_link_libraries(${library_name}_2d ${OMPL_LIBRARIES})
 target_include_directories(${library_name}_2d PUBLIC ${Eigen3_INCLUDE_DIRS})
-
+if(WIN32)
+  target_compile_definitions(${library_name}_2d
+    PRIVATE "NAV2_SMAC_PLANNER_BUILDING_DLL")
+endif()
 ament_target_dependencies(${library_name}_2d
   ${dependencies}
 )
@@ -132,9 +141,12 @@ add_library(${library_name}_lattice SHARED
   src/node_basic.cpp
 )
 
-target_link_libraries(${library_name}_lattice ${OMPL_LIBRARIES})
+target_link_libraries(${library_name}_lattice PRIVATE ${OMPL_LIBRARIES})
 target_include_directories(${library_name}_lattice PUBLIC ${Eigen3_INCLUDE_DIRS})
-
+if(WIN32)
+  target_compile_definitions(${library_name}_lattice
+    PRIVATE "NAV2_SMAC_PLANNER_BUILDING_DLL")
+endif()
 ament_target_dependencies(${library_name}_lattice
   ${dependencies}
 )

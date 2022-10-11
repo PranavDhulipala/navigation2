@@ -36,6 +36,7 @@
 #include "nav2_smac_planner/collision_checker.hpp"
 #include "nav2_smac_planner/node_hybrid.hpp"
 #include "nav2_smac_planner/utils.hpp"
+#include "nav2_smac_planner/visibility_control.hpp"
 
 namespace nav2_smac_planner
 {
@@ -410,10 +411,10 @@ public:
 
   NodeLattice * parent;
   Coordinates pose;
-  static LatticeMotionTable motion_table;
+  NAV2_SMAC_PLANNER_PUBLIC static LatticeMotionTable motion_table;
   // Dubin / Reeds-Shepp lookup and size for dereferencing
-  static LookupTable dist_heuristic_lookup_table;
-  static float size_lookup;
+  NAV2_SMAC_PLANNER_PUBLIC static LookupTable dist_heuristic_lookup_table;
+  NAV2_SMAC_PLANNER_PUBLIC static float size_lookup;
 
 private:
   float _cell_cost;

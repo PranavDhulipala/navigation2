@@ -124,6 +124,7 @@ TEST(NodeLatticeTest, test_node_lattice_neighbors_and_parsing)
       filePath).grid_resolution, 0.05, 0.005);
 }
 
+
 TEST(NodeLatticeTest, test_node_lattice_conversions)
 {
   std::string pkg_share_dir = ament_index_cpp::get_package_share_directory("nav2_smac_planner");
