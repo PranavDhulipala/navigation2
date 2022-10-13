@@ -118,7 +118,3 @@ ament_target_dependencies(test_lattice_node ${dependencies})
 target_link_libraries(test_lattice_node ${library_name} 
   ${library_name}_lattice
 )
-# if(WIN32)
-#   target_compile_definitions(test_lattice_node
-#     PRIVATE "NAV2_SMAC_PLANNER_BUILDING_DLL")
-# endif()
