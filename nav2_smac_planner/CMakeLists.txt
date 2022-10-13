@@ -94,10 +94,9 @@ add_library(${library_name} SHARED
 
 target_link_libraries(${library_name} ${OMPL_LIBRARIES} ${OpenMP_LIBRARIES}  OpenMP::OpenMP_CXX)
 target_include_directories(${library_name} PUBLIC ${Eigen3_INCLUDE_DIRS})
-if(WIN32)
-  target_compile_definitions(${library_name}
-    PRIVATE "NAV2_SMAC_PLANNER_BUILDING_DLL")
-endif()
+target_compile_definitions(${library_name}
+  PRIVATE "NAV2_SMAC_PLANNER_BUILDING_DLL"
+)
 
 ament_target_dependencies(${library_name}
   ${dependencies}
@@ -119,10 +118,9 @@ add_library(${library_name}_2d SHARED
 
 target_link_libraries(${library_name}_2d ${OMPL_LIBRARIES})
 target_include_directories(${library_name}_2d PUBLIC ${Eigen3_INCLUDE_DIRS})
-if(WIN32)
-  target_compile_definitions(${library_name}_2d
-    PRIVATE "NAV2_SMAC_PLANNER_BUILDING_DLL")
-endif()
+target_compile_definitions(${library_name}_2d
+  PRIVATE "NAV2_SMAC_PLANNER_BUILDING_DLL"
+)
 ament_target_dependencies(${library_name}_2d
   ${dependencies}
 )
@@ -143,10 +141,9 @@ add_library(${library_name}_lattice SHARED
 
 target_link_libraries(${library_name}_lattice PRIVATE ${OMPL_LIBRARIES})
 target_include_directories(${library_name}_lattice PUBLIC ${Eigen3_INCLUDE_DIRS})
-if(WIN32)
-  target_compile_definitions(${library_name}_lattice
-    PRIVATE "NAV2_SMAC_PLANNER_BUILDING_DLL")
-endif()
+target_compile_definitions(${library_name}_lattice
+  PRIVATE "NAV2_SMAC_PLANNER_BUILDING_DLL"
+)
 ament_target_dependencies(${library_name}_lattice
   ${dependencies}
 )
