@@ -139,7 +139,7 @@ add_library(${library_name}_lattice SHARED
   src/node_basic.cpp
 )
 
-target_link_libraries(${library_name}_lattice PRIVATE ${OMPL_LIBRARIES})
+target_link_libraries(${library_name}_lattice ${OMPL_LIBRARIES})
 target_include_directories(${library_name}_lattice PUBLIC ${Eigen3_INCLUDE_DIRS})
 target_compile_definitions(${library_name}_lattice
   PRIVATE "NAV2_SMAC_PLANNER_BUILDING_DLL"
